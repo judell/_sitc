@@ -70,7 +70,8 @@ var TextQuoteAnchor = (function () {
       // Work around a hard limit of the DiffMatchPatch bitap implementation.
       // The search pattern must be no more than 32 characters.
       var slices = this.exact.match(/(.|[\r\n]){1,32}/g);
-      var loc = hint === undefined ? root.textContent.length / 2 | 0 : hint;
+      //var loc = hint === undefined ? root.textContent.length / 2 | 0 : hint;
+      var loc = hint = 0;
       var start = Number.POSITIVE_INFINITY;
       var end = Number.NEGATIVE_INFINITY;
       var result = -1;
@@ -2860,7 +2861,6 @@ function get_selector_with(selector_list, key) {
   }
 }
 
-
 function get_text_quote_selector(selector_list) {
   return get_selector_with(selector_list, 'exact');
 }
@@ -2871,11 +2871,13 @@ function get_text_position_selector(selector_list) {
 
 function get_range(anno) {
    var selectors = anno.target[0].selector;
-   for (i=0; i<selectors.length; i++) {
-	   var selector = selectors[i];
-	   if (selector.hasOwnProperty('start')) {
-		   return Math.abs(selector.start - selector.end);
-	   }
+   if ( selectors ) {
+       for (i=0; i<selectors.length; i++) {
+           var selector = selectors[i];
+           if (selector.hasOwnProperty('start')) {
+               return Math.abs(selector.start - selector.end);
+           }
+       }
    }
    return 0;
 }
